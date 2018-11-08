@@ -2,8 +2,8 @@
 
 namespace Kerox\OAuth2\Client\Test\TestCase\Provider;
 
+use Kerox\OAuth2\Client\Provider\Exception\SpotifyIdentityProviderException;
 use Kerox\OAuth2\Client\Provider\Spotify;
-use Mockery;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\ClientInterface;
@@ -32,12 +32,6 @@ class SpotifyTest extends TestCase
             'redirectUri' => 'none',
             'responseType' => Spotify::RESPONSE_TYPE,
         ]);
-    }
-
-    protected function tearDown()
-    {
-        Mockery::close();
-        parent::tearDown();
     }
 
     public function testAuthorizationUrl()
@@ -75,7 +69,7 @@ class SpotifyTest extends TestCase
 
     public function testGetResourceOwnerDetailsUrl()
     {
-        $accessToken = Mockery::mock(AccessToken::class);
+        $accessToken = $this->createMock(AccessToken::class);
 
         $url = $this->provider->getResourceOwnerDetailsUrl($accessToken);
         $uri = parse_url($url);
@@ -85,14 +79,14 @@ class SpotifyTest extends TestCase
 
     public function testGetAccessToken()
     {
-        $response = Mockery::mock(ResponseInterface::class);
+        $response = $this->createMock(ResponseInterface::class);
 
-        $response->shouldReceive('getBody')->andReturn('{"access_token": "mock_access_token", "expires_in": 3600}');
-        $response->shouldReceive('getHeader')->andReturn(['content-type' => 'json']);
-        $response->shouldReceive('getStatusCode')->andReturn(200);
+        $response->method('getBody')->willReturn('{"access_token": "mock_access_token", "expires_in": 3600}');
+        $response->method('getHeader')->willReturn(['content-type' => 'json']);
+        $response->method('getStatusCode')->willReturn(200);
 
-        $client = Mockery::mock(ClientInterface::class);
-        $client->shouldReceive('send')->times(1)->andReturn($response);
+        $client = $this->createMock(ClientInterface::class);
+        $client->method('send')->willReturn($response);
 
         $this->provider->setHttpClient($client);
 
@@ -108,7 +102,7 @@ class SpotifyTest extends TestCase
     {
         $provider = new FooSpotifyProvider();
 
-        $token = Mockery::mock(AccessToken::class);
+        $token = $this->createMock(AccessToken::class);
         $user = $provider->getResourceOwner($token);
 
         $this->assertEquals('1990-01-01', $user->getBirthDate($token));
@@ -129,5 +123,51 @@ class SpotifyTest extends TestCase
         $this->assertEquals('premium', $user->getProduct($token));
         $this->assertEquals('user', $user->getType($token));
         $this->assertEquals('spotify:user:1122334455', $user->getUri($token));
+    }
+
+    public function testCheckResponseFailureWithAuthenticationError()
+    {
+        $this->expectException(SpotifyIdentityProviderException::class);
+        $this->expectExceptionMessage('Invalid client secret');
+
+        $response = $this->createMock(ResponseInterface::class);
+        $response->method('getStatusCode')->willReturn(401);
+
+        $data = [
+            'error' => 'invalid_client',
+            'error_description' => 'Invalid client secret',
+        ];
+
+        $this->callMethod('checkResponse', [$response, $data]);
+    }
+
+    public function testCheckResponseFailureWithRegularError()
+    {
+        $this->expectException(SpotifyIdentityProviderException::class);
+        $this->expectExceptionMessage('invalid id');
+
+        $response = $this->createMock(ResponseInterface::class);
+        $response->method('getStatusCode')->willReturn(400);
+
+        $data = [
+            'error' => [
+                'status' => 400,
+                'message' => 'invalid id',
+            ],
+        ];
+
+        $this->callMethod('checkResponse', [$response, $data]);
+    }
+
+    protected function callMethod($name, array $args = [])
+    {
+        try {
+            $reflection = new \ReflectionMethod(\get_class($this->provider), $name);
+            $reflection->setAccessible(true);
+
+            return $reflection->invokeArgs($this->provider, $args);
+        } catch (\ReflectionException $e) {
+            return null;
+        }
     }
 }
