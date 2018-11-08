@@ -1,0 +1,51 @@
+{
+  "name": "kerox/oauth2-spotify",
+  "type": "library",
+  "description": "Spotify Oauth 2.0 Client Provider for The PHP League OAuth2-Client",
+  "keywords": [
+    "spotify",
+    "oauth",
+    "oauth2",
+    "client",
+    "authorization",
+    "authentication"
+  ],
+  "homepage": "https://github.com/ker0x/oauth2-spotify",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Romain Monteil",
+      "homepage": "https://kerox.fr",
+      "email": "monteil.romain@gmail.com",
+      "role": "Author"
+    }
+  ],
+  "require": {
+    "php": ">=7.1.0",
+    "league/oauth2-client": "^2.3"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^7.4",
+    "friendsofphp/php-cs-fixer": "^2.13",
+    "codacy/coverage": "^1.4",
+    "mockery/mockery": "^1.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "Kerox\\OAuth2\\Client\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Kerox\\OAuth2\\Client\\Test\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": "phpunit",
+    "csfix": "php-cs-fixer fix --diff --verbose --config=.php_cs"
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "sort-packages": true
+  }
+}

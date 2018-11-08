@@ -1,0 +1,25 @@
+{
+  "birthdate": "1990-01-01",
+  "country": "FR",
+  "display_name": "John Doe",
+  "email": "john.doe@example.com",
+  "external_urls": {
+    "spotify": "https://open.spotify.com/user/1122334455"
+  },
+  "followers": {
+    "href": null,
+    "total": 10
+  },
+  "href": "https://api.spotify.com/v1/users/1122334455",
+  "id": "1122334455",
+  "images": [
+    {
+      "height": null,
+      "url": "https://example.com/31964231_10156960367129386_5965686321191059456_n.jpg",
+      "width": null
+    }
+  ],
+  "product": "premium",
+  "type": "user",
+  "uri": "spotify:user:1122334455"
+}
