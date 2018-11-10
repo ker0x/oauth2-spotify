@@ -26,17 +26,17 @@ class SpotifyResourceOwner implements ResourceOwnerInterface
     /**
      * @return null|string
      */
-    public function getBirthDate(): string
+    public function getBirthDate(): ?string
     {
-        return $this->data['birthdate'];
+        return $this->data['birthdate'] ?? null;
     }
 
     /**
      * @return null|string
      */
-    public function getCountry(): string
+    public function getCountry(): ?string
     {
-        return $this->data['country'];
+        return $this->data['country'] ?? null;
     }
 
     /**
@@ -50,9 +50,9 @@ class SpotifyResourceOwner implements ResourceOwnerInterface
     /**
      * @return null|string
      */
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
-        return $this->data['email'];
+        return $this->data['email'] ?? null;
     }
 
     /**
@@ -80,7 +80,7 @@ class SpotifyResourceOwner implements ResourceOwnerInterface
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getId(): string
     {
@@ -98,9 +98,9 @@ class SpotifyResourceOwner implements ResourceOwnerInterface
     /**
      * @return null|string
      */
-    public function getProduct(): string
+    public function getProduct(): ?string
     {
-        return $this->data['product'];
+        return $this->data['product'] ?? null;
     }
 
     /**

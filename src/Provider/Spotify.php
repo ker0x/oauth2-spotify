@@ -57,8 +57,6 @@ class Spotify extends AbstractProvider
     /**
      * Returns the base URL for authorizing a client.
      *
-     * Eg. https://oauth.service.com/authorize
-     *
      * @return string
      */
     public function getBaseAuthorizationUrl(): string
@@ -68,8 +66,6 @@ class Spotify extends AbstractProvider
 
     /**
      * Returns the base URL for requesting an access token.
-     *
-     * Eg. https://oauth.service.com/token
      *
      * @param array $params
      *
@@ -107,7 +103,6 @@ class Spotify extends AbstractProvider
 
     /**
      * Checks a provider response for errors.
-     *
      *
      * @param ResponseInterface $response
      * @param array|string      $data     Parsed response data

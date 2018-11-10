@@ -53,57 +53,95 @@ $provider = new Kerox\OAuth2\Client\Provider\Spotify([
 
 if (!isset($_GET['code'])) {
     // If we don't have an authorization code then get one
-    $authUrl = $provider->getAuthorizationUrl();
+    $authUrl = $provider->getAuthorizationUrl([
+        'scope' => [
+            Kerox\OAuth2\Client\Provider\Spotify::SCOPE_USER_READ_BIRTHDATE,
+            Kerox\OAuth2\Client\Provider\Spotify::SCOPE_USER_READ_EMAIL,
+        ]
+    ]);
+    
     $_SESSION['oauth2state'] = $provider->getState();
     
-    header('Location: '.$authUrl);
+    header('Location: ' . $authUrl);
     exit;
 
 // Check given state against previously stored one to mitigate CSRF attack
 } elseif (empty($_GET['state']) || ($_GET['state'] !== $_SESSION['oauth2state'])) {
 
     unset($_SESSION['oauth2state']);
-    exit('Invalid state');
+    echo 'Invalid state.';
+    exit;
 
-} else {
-
-    // Try to get an access token (using the authorization code grant)
-    $token = $provider->getAccessToken('authorization_code', [
-        'code' => $_GET['code']
-    ]);
-
-    // Optional: Now you have a token you can look up a users profile data
-    try {
-
-        // We got an access token, let's now get the user's details
-        /** @var \Kerox\OAuth2\Client\Provider\SpotifyResourceOwner $owner */
-        $user = $provider->getResourceOwner($token);
-
-        // Use these details to create a new profile
-        printf('Hello %s!', $user->getDisplayName());
-
-    } catch (Exception $e) {
-
-        // Failed to get user details
-        exit('Damned...');
-    }
-
-    // Use this to interact with an API on the users behalf
-    echo $token->getToken();
 }
+
+// Try to get an access token (using the authorization code grant)
+$token = $provider->getAccessToken('authorization_code', [
+    'code' => $_GET['code']
+]);
+
+// Optional: Now you have a token you can look up a users profile data
+try {
+
+    // We got an access token, let's now get the user's details
+    /** @var \Kerox\OAuth2\Client\Provider\SpotifyResourceOwner $owner */
+    $user = $provider->getResourceOwner($token);
+
+    // Use these details to create a new profile
+    printf('Hello %s!', $user->getDisplayName());
+    
+    echo '<pre>';
+    var_dump($user);
+    # object(Kerox\OAuth2\Client\Provider\SpotifyResourceOwner)#10 (1) { ...
+    echo '</pre>';
+
+} catch (Exception $e) {
+
+    // Failed to get user details
+    exit('Damned...');
+}
+
+echo '<pre>';
+// Use this to interact with an API on the users behalf
+var_dump($token->getToken());
+# string(217) "CAADAppfn3msBAI7tZBLWg...
+
+// The time (in epoch time) when an access token will expire
+var_dump($token->getExpires());
+# int(1436825866)
+echo '</pre>';
 ```
 
-### Managing Scopes
+### Authorization Scopes
 
-When creating your Spotify authorization URL, you can specify scopes your application may authorize.
+The following scopes are available as described in the [official documentation](https://developer.spotify.com/documentation/general/guides/scopes/):
 
-```php
-$options = [
-    'scope' => [
-        Kerox\OAuth2\Client\Provider\Spotify::SCOPE_USER_READ_BIRTHDATE,
-        Kerox\OAuth2\Client\Provider\Spotify::SCOPE_USER_READ_EMAIL,
-    ]
-];
+* SCOPE_APP_REMOTE_CONTROL
+* SCOPE_PLAYLIST_MODIFY_PRIVATE
+* SCOPE_PLAYLIST_MODIFY_PUBLIC
+* SCOPE_PLAYLIST_READ_COLLABORATIVE
+* SCOPE_PLAYLIST_READ_PRIVATE
+* SCOPE_STREAMING
+* SCOPE_USER_READ_PRIVATE
+* SCOPE_USER_READ_BIRTHDATE
+* SCOPE_USER_READ_EMAIL
+* SCOPE_USER_TOP_READ
+* SCOPE_USER_READ_RECENTLY_PLAYED
+* SCOPE_USER_LIBRARY_MODIFY
+* SCOPE_USER_LIBRARY_READ
+* SCOPE_USER_READ_CURRENTLY_PLAYING
+* SCOPE_USER_READ_PLAYBACK_STATE
+* SCOPE_USER_MODIFY_PLAYBACK_STATE
+* SCOPE_USER_FOLLOW_MODIFY
+* SCOPE_USER_FOLLOW_READ
 
-$authorizationUrl = $provider->getAuthorizationUrl($options);
-```
+## Contributing
+
+Please see [CONTRIBUTING](https://github.com/ker0x/oauth2-spotify/blob/master/CONTRIBUTING.md) for details.
+
+## Credits
+
+- [Romain Monteil](https://github.com/ker0x)
+
+## License
+
+The MIT License (MIT). Please see [License File](https://github.com/ker0x/oauth2-spotify/blob/master/LICENSE) for more information.
