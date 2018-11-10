@@ -83,7 +83,7 @@ $token = $provider->getAccessToken('authorization_code', [
 try {
 
     // We got an access token, let's now get the user's details
-    /** @var \Kerox\OAuth2\Client\Provider\SpotifyResourceOwner $owner */
+    /** @var \Kerox\OAuth2\Client\Provider\SpotifyResourceOwner $user */
     $user = $provider->getResourceOwner($token);
 
     // Use these details to create a new profile
@@ -91,7 +91,6 @@ try {
     
     echo '<pre>';
     var_dump($user);
-    # object(Kerox\OAuth2\Client\Provider\SpotifyResourceOwner)#10 (1) { ...
     echo '</pre>';
 
 } catch (Exception $e) {
