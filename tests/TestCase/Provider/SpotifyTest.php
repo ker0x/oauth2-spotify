@@ -4,14 +4,14 @@ namespace Kerox\OAuth2\Client\Test\TestCase\Provider;
 
 use Kerox\OAuth2\Client\Provider\Exception\SpotifyIdentityProviderException;
 use Kerox\OAuth2\Client\Provider\Spotify;
+use League\OAuth2\Client\Token\AccessTokenInterface;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\ClientInterface;
-use League\OAuth2\Client\Token\AccessToken;
 
 class FooSpotifyProvider extends Spotify
 {
-    protected function fetchResourceOwnerDetails(AccessToken $token)
+    protected function fetchResourceOwnerDetails(AccessTokenInterface $token)
     {
         return json_decode(file_get_contents(__DIR__ . '/../../Mocks/user.json'), true);
     }
@@ -34,7 +34,7 @@ class SpotifyTest extends TestCase
         ]);
     }
 
-    public function testAuthorizationUrl()
+    public function testAuthorizationUrl(): void
     {
         $url = $this->provider->getAuthorizationUrl();
 
@@ -49,7 +49,7 @@ class SpotifyTest extends TestCase
         $this->assertNotNull($this->provider->getState());
     }
 
-    public function testGetBaseAuthorizationUrl()
+    public function testGetBaseAuthorizationUrl(): void
     {
         $url = $this->provider->getAuthorizationUrl();
         $uri = parse_url($url);
@@ -57,7 +57,7 @@ class SpotifyTest extends TestCase
         $this->assertEquals('/authorize', $uri['path']);
     }
 
-    public function testGetBaseAccessTokenUrl()
+    public function testGetBaseAccessTokenUrl(): void
     {
         $params = [];
 
@@ -67,9 +67,9 @@ class SpotifyTest extends TestCase
         $this->assertEquals('/api/token', $uri['path']);
     }
 
-    public function testGetResourceOwnerDetailsUrl()
+    public function testGetResourceOwnerDetailsUrl(): void
     {
-        $accessToken = $this->createMock(AccessToken::class);
+        $accessToken = $this->createMock(AccessTokenInterface::class);
 
         $url = $this->provider->getResourceOwnerDetailsUrl($accessToken);
         $uri = parse_url($url);
@@ -77,7 +77,7 @@ class SpotifyTest extends TestCase
         $this->assertEquals('/v1/me', $uri['path']);
     }
 
-    public function testGetAccessToken()
+    public function testGetAccessToken(): void
     {
         $response = $this->createMock(ResponseInterface::class);
 
@@ -98,11 +98,11 @@ class SpotifyTest extends TestCase
         $this->assertNull($token->getResourceOwnerId());
     }
 
-    public function testGetResourceOwner()
+    public function testGetResourceOwner(): void
     {
         $provider = new FooSpotifyProvider();
 
-        $token = $this->createMock(AccessToken::class);
+        $token = $this->createMock(AccessTokenInterface::class);
         $user = $provider->getResourceOwner($token);
 
         $this->assertEquals('1990-01-01', $user->getBirthDate($token));
@@ -125,7 +125,7 @@ class SpotifyTest extends TestCase
         $this->assertEquals('spotify:user:1122334455', $user->getUri($token));
     }
 
-    public function testCheckResponseFailureWithAuthenticationError()
+    public function testCheckResponseFailureWithAuthenticationError(): void
     {
         $this->expectException(SpotifyIdentityProviderException::class);
         $this->expectExceptionMessage('Invalid client secret');
@@ -141,7 +141,7 @@ class SpotifyTest extends TestCase
         $this->callMethod('checkResponse', [$response, $data]);
     }
 
-    public function testCheckResponseFailureWithRegularError()
+    public function testCheckResponseFailureWithRegularError(): void
     {
         $this->expectException(SpotifyIdentityProviderException::class);
         $this->expectExceptionMessage('invalid id');
@@ -159,6 +159,12 @@ class SpotifyTest extends TestCase
         $this->callMethod('checkResponse', [$response, $data]);
     }
 
+    /**
+     * @param       $name
+     * @param array $args
+     *
+     * @return mixed|null
+     */
     protected function callMethod($name, array $args = [])
     {
         try {
