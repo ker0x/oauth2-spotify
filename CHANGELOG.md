@@ -4,8 +4,13 @@ This package follows [SemVer](http://semver.org/).
 
 ## 1.x
 
+**Changelog** (since [`1.0.1`](https://github.com/ker0x/messenger/compare/1.0.1...1.0.2))
+
+- 1.0.2 (2018-11)
+    - Rollback to previous version to be compatible with league/oauth2-client 2.4.1
+
 **Changelog** (since [`1.0.0`](https://github.com/ker0x/messenger/compare/1.0.0...1.0.0))
 
 - 1.0.1 (2018-11)
-    - Fix errors introduced by league/oauth2-client 2.4.0 (see [#143](https://github.com/knpuniversity/oauth2-client-bundle/issues/143))
+    - Fix errors introduced by league/oauth2-client 2.4.0 (see [#752](https://github.com/thephpleague/oauth2-client/issues/752))
     - Add Github templates for issues and PR
