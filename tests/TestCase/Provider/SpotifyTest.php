@@ -2,16 +2,16 @@
 
 namespace Kerox\OAuth2\Client\Test\TestCase\Provider;
 
+use GuzzleHttp\ClientInterface;
 use Kerox\OAuth2\Client\Provider\Exception\SpotifyIdentityProviderException;
 use Kerox\OAuth2\Client\Provider\Spotify;
-use League\OAuth2\Client\Token\AccessTokenInterface;
+use League\OAuth2\Client\Token\AccessToken;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
-use GuzzleHttp\ClientInterface;
 
 class FooSpotifyProvider extends Spotify
 {
-    protected function fetchResourceOwnerDetails(AccessTokenInterface $token)
+    protected function fetchResourceOwnerDetails(AccessToken $token)
     {
         return json_decode(file_get_contents(__DIR__ . '/../../Mocks/user.json'), true);
     }
@@ -69,7 +69,7 @@ class SpotifyTest extends TestCase
 
     public function testGetResourceOwnerDetailsUrl(): void
     {
-        $accessToken = $this->createMock(AccessTokenInterface::class);
+        $accessToken = $this->createMock(AccessToken::class);
 
         $url = $this->provider->getResourceOwnerDetailsUrl($accessToken);
         $uri = parse_url($url);
@@ -102,7 +102,7 @@ class SpotifyTest extends TestCase
     {
         $provider = new FooSpotifyProvider();
 
-        $token = $this->createMock(AccessTokenInterface::class);
+        $token = $this->createMock(AccessToken::class);
         $user = $provider->getResourceOwner($token);
 
         $this->assertEquals('1990-01-01', $user->getBirthDate($token));
