@@ -105,7 +105,7 @@ class Spotify extends AbstractProvider
      * Checks a provider response for errors.
      *
      * @param ResponseInterface $response
-     * @param array|string      $data Parsed response data
+     * @param array|string      $data     Parsed response data
      *
      * @throws IdentityProviderException
      */
