@@ -8,7 +8,7 @@ use Kerox\OAuth2\Client\Provider\Exception\SpotifyIdentityProviderException;
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Provider\ResourceOwnerInterface;
-use League\OAuth2\Client\Token\AccessTokenInterface;
+use League\OAuth2\Client\Token\AccessToken;
 use League\OAuth2\Client\Tool\BearerAuthorizationTrait;
 use Psr\Http\Message\ResponseInterface;
 
@@ -79,11 +79,11 @@ class Spotify extends AbstractProvider
     /**
      * Returns the URL for requesting the resource owner's details.
      *
-     * @param AccessTokenInterface $token
+     * @param AccessToken $token
      *
      * @return string
      */
-    public function getResourceOwnerDetailsUrl(AccessTokenInterface $token): string
+    public function getResourceOwnerDetailsUrl(AccessToken $token): string
     {
         return 'https://api.spotify.com/v1/me';
     }
@@ -105,7 +105,7 @@ class Spotify extends AbstractProvider
      * Checks a provider response for errors.
      *
      * @param ResponseInterface $response
-     * @param array|string      $data     Parsed response data
+     * @param array|string      $data Parsed response data
      *
      * @throws IdentityProviderException
      */
@@ -128,12 +128,12 @@ class Spotify extends AbstractProvider
      * Generates a resource owner object from a successful resource owner
      * details request.
      *
-     * @param array                $response
-     * @param AccessTokenInterface $token
+     * @param array       $response
+     * @param AccessToken $token
      *
      * @return ResourceOwnerInterface
      */
-    protected function createResourceOwner(array $response, AccessTokenInterface $token): ResourceOwnerInterface
+    protected function createResourceOwner(array $response, AccessToken $token): ResourceOwnerInterface
     {
         return new SpotifyResourceOwner($response);
     }
