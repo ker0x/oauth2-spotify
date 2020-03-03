@@ -1,6 +1,8 @@
 <?php
 
-namespace Kerox\OAuth2\Client\Test\TestCase\Provider;
+declare(strict_types=1);
+
+namespace Kerox\OAuth2\Client\Tests\Provider;
 
 use GuzzleHttp\ClientInterface;
 use Kerox\OAuth2\Client\Provider\Exception\SpotifyIdentityProviderException;
@@ -13,7 +15,7 @@ class FooSpotifyProvider extends Spotify
 {
     protected function fetchResourceOwnerDetails(AccessToken $token)
     {
-        return json_decode(file_get_contents(__DIR__ . '/../../Mocks/user.json'), true);
+        return json_decode(file_get_contents(__DIR__ . '/../Mocks/user.json'), true);
     }
 }
 
@@ -24,7 +26,7 @@ class SpotifyTest extends TestCase
      */
     protected $provider;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->provider = new Spotify([
             'clientId' => 'mock_client_id',
@@ -54,7 +56,7 @@ class SpotifyTest extends TestCase
         $url = $this->provider->getAuthorizationUrl();
         $uri = parse_url($url);
 
-        $this->assertEquals('/authorize', $uri['path']);
+        $this->assertSame('/authorize', $uri['path']);
     }
 
     public function testGetBaseAccessTokenUrl(): void
@@ -64,7 +66,7 @@ class SpotifyTest extends TestCase
         $url = $this->provider->getBaseAccessTokenUrl($params);
         $uri = parse_url($url);
 
-        $this->assertEquals('/api/token', $uri['path']);
+        $this->assertSame('/api/token', $uri['path']);
     }
 
     public function testGetResourceOwnerDetailsUrl(): void
@@ -74,7 +76,7 @@ class SpotifyTest extends TestCase
         $url = $this->provider->getResourceOwnerDetailsUrl($accessToken);
         $uri = parse_url($url);
 
-        $this->assertEquals('/v1/me', $uri['path']);
+        $this->assertSame('/v1/me', $uri['path']);
     }
 
     public function testGetAccessToken(): void
@@ -91,7 +93,7 @@ class SpotifyTest extends TestCase
         $this->provider->setHttpClient($client);
 
         $token = $this->provider->getAccessToken('authorization_code', ['code' => 'mock_authorization_code']);
-        $this->assertEquals('mock_access_token', $token->getToken());
+        $this->assertSame('mock_access_token', $token->getToken());
         $this->assertLessThanOrEqual(time() + 3600, $token->getExpires());
         $this->assertGreaterThanOrEqual(time(), $token->getExpires());
         $this->assertNull($token->getRefreshToken());
@@ -105,24 +107,24 @@ class SpotifyTest extends TestCase
         $token = $this->createMock(AccessToken::class);
         $user = $provider->getResourceOwner($token);
 
-        $this->assertEquals('1990-01-01', $user->getBirthDate($token));
-        $this->assertEquals('FR', $user->getCountry($token));
-        $this->assertEquals('John Doe', $user->getDisplayName($token));
-        $this->assertEquals('john.doe@example.com', $user->getEmail($token));
-        $this->assertEquals(['spotify' => 'https://open.spotify.com/user/1122334455'], $user->getExternalUrls($token));
-        $this->assertEquals(['href' => null, 'total' => 10], $user->getFollowers($token));
-        $this->assertEquals('https://api.spotify.com/v1/users/1122334455', $user->getHref($token));
-        $this->assertEquals('1122334455', $user->getId($token));
-        $this->assertEquals([
+        $this->assertSame('1990-01-01', $user->getBirthDate($token));
+        $this->assertSame('FR', $user->getCountry($token));
+        $this->assertSame('John Doe', $user->getDisplayName($token));
+        $this->assertSame('john.doe@example.com', $user->getEmail($token));
+        $this->assertSame(['spotify' => 'https://open.spotify.com/user/1122334455'], $user->getExternalUrls($token));
+        $this->assertSame(['href' => null, 'total' => 10], $user->getFollowers($token));
+        $this->assertSame('https://api.spotify.com/v1/users/1122334455', $user->getHref($token));
+        $this->assertSame('1122334455', $user->getId($token));
+        $this->assertSame([
             [
                 'height' => null,
                 'url' => 'https://example.com/31964231_10156960367129386_5965686321191059456_n.jpg',
                 'width' => null,
             ],
         ], $user->getImages($token));
-        $this->assertEquals('premium', $user->getProduct($token));
-        $this->assertEquals('user', $user->getType($token));
-        $this->assertEquals('spotify:user:1122334455', $user->getUri($token));
+        $this->assertSame('premium', $user->getProduct($token));
+        $this->assertSame('user', $user->getType($token));
+        $this->assertSame('spotify:user:1122334455', $user->getUri($token));
     }
 
     public function testCheckResponseFailureWithAuthenticationError(): void
@@ -160,8 +162,7 @@ class SpotifyTest extends TestCase
     }
 
     /**
-     * @param       $name
-     * @param array $args
+     * @param $name
      *
      * @return mixed|null
      */
