@@ -4,6 +4,13 @@ This package follows [SemVer](http://semver.org/).
 
 ## 1.x
 
+**Changelog** (since [`1.0.2`](https://github.com/ker0x/messenger/compare/1.0.2...1.1.0))
+
+- 1.1.0 (2020-03)
+    - Update authorization scopes
+    - Add PHP 7.3 and 7.4 to Travis
+    - Update global CI configuration
+
 **Changelog** (since [`1.0.1`](https://github.com/ker0x/messenger/compare/1.0.1...1.0.2))
 
 - 1.0.2 (2018-11)
