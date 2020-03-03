@@ -55,7 +55,6 @@ if (!isset($_GET['code'])) {
     // If we don't have an authorization code then get one
     $authUrl = $provider->getAuthorizationUrl([
         'scope' => [
-            Kerox\OAuth2\Client\Provider\Spotify::SCOPE_USER_READ_BIRTHDATE,
             Kerox\OAuth2\Client\Provider\Spotify::SCOPE_USER_READ_EMAIL,
         ]
     ]);
@@ -112,26 +111,26 @@ echo '</pre>';
 
 ### Authorization Scopes
 
-The following scopes are available as described in the [official documentation](https://developer.spotify.com/documentation/general/guides/scopes/):
+All scopes described in the [official documentation](https://developer.spotify.com/documentation/general/guides/scopes/) are available through public constants in `\Kerox\OAuth2\Client\Provider\Spotify`:
 
-* SCOPE_APP_REMOTE_CONTROL
-* SCOPE_PLAYLIST_MODIFY_PRIVATE
-* SCOPE_PLAYLIST_MODIFY_PUBLIC
-* SCOPE_PLAYLIST_READ_COLLABORATIVE
-* SCOPE_PLAYLIST_READ_PRIVATE
-* SCOPE_STREAMING
-* SCOPE_USER_READ_PRIVATE
-* SCOPE_USER_READ_BIRTHDATE
-* SCOPE_USER_READ_EMAIL
+* SCOPE_UGC_IMAGE_UPLOAD
+* SCOPE_USER_MODIFY_PLAYBACK_STATE
+* SCOPE_USER_READ_PLAYBACK_STATE
+* SCOPE_USER_READ_CURRENTLY_PLAYING
 * SCOPE_USER_TOP_READ
 * SCOPE_USER_READ_RECENTLY_PLAYED
 * SCOPE_USER_LIBRARY_MODIFY
 * SCOPE_USER_LIBRARY_READ
-* SCOPE_USER_READ_CURRENTLY_PLAYING
-* SCOPE_USER_READ_PLAYBACK_STATE
-* SCOPE_USER_MODIFY_PLAYBACK_STATE
 * SCOPE_USER_FOLLOW_MODIFY
 * SCOPE_USER_FOLLOW_READ
+* SCOPE_PLAYLIST_READ_PRIVATE
+* SCOPE_PLAYLIST_MODIFY_PUBLIC
+* SCOPE_PLAYLIST_MODIFY_PRIVATE
+* SCOPE_PLAYLIST_READ_COLLABORATIVE
+* SCOPE_USER_READ_PRIVATE
+* SCOPE_USER_READ_EMAIL
+* SCOPE_APP_REMOTE_CONTROL
+* SCOPE_STREAMING
 
 ## Contributing
 
