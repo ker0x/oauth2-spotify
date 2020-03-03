@@ -3,7 +3,7 @@
          stopOnFailure="false"
          bootstrap="./vendor/autoload.php">
     <testsuites>
-        <testsuite name="Package Test Suite">
+        <testsuite name="OAuth2 Spotify Test Suite">
             <directory>./tests</directory>
         </testsuite>
     </testsuites>
@@ -15,6 +15,6 @@
     </filter>
 
     <logging>
-        <log type="coverage-clover" target="build/logs/clover.xml"/>
+        <log type="coverage-clover" target="build/coverage.xml"/>
     </logging>
 </phpunit>

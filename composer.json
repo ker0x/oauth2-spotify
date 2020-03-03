@@ -15,8 +15,8 @@
   "authors": [
     {
       "name": "Romain Monteil",
-      "homepage": "https://kerox.fr",
       "email": "monteil.romain@gmail.com",
+      "homepage": "https://kerox.fr",
       "role": "Author"
     }
   ],
@@ -25,9 +25,12 @@
     "league/oauth2-client": "^2.3"
   },
   "require-dev": {
-    "phpunit/phpunit": "^7.4",
     "friendsofphp/php-cs-fixer": "^2.13",
-    "codacy/coverage": "^1.4"
+    "phpunit/phpunit": "^7.4"
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "sort-packages": true
   },
   "autoload": {
     "psr-4": {
@@ -36,15 +39,11 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Kerox\\OAuth2\\Client\\Test\\": "tests/"
+      "Kerox\\OAuth2\\Client\\Tests\\": "tests/"
     }
   },
   "scripts": {
-    "test": "phpunit",
-    "csfix": "php-cs-fixer fix --diff --verbose --config=.php_cs"
-  },
-  "config": {
-    "optimize-autoloader": true,
-    "sort-packages": true
+    "php-cs-fixer": "vendor/bin/php-cs-fixer fix --diff --verbose --config=.php_cs",
+    "phpunit": "vendor/bin/phpunit --coverage-text"
   }
 }
