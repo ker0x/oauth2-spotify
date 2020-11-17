@@ -13,9 +13,6 @@ class SpotifyResourceOwner implements ResourceOwnerInterface
      */
     protected $data;
 
-    /**
-     * SpotifyUser constructor.
-     */
     public function __construct(array $response)
     {
         $this->data = $response;

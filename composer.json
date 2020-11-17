@@ -44,6 +44,6 @@
   },
   "scripts": {
     "php-cs-fixer": "vendor/bin/php-cs-fixer fix --diff --verbose --config=.php_cs",
-    "phpunit": "vendor/bin/phpunit --coverage-text"
+    "phpunit": "vendor/bin/phpunit --coverage-text --coverage-clover=build/coverage.xml"
   }
 }
