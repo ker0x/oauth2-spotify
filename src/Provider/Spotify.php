@@ -55,9 +55,6 @@ class Spotify extends AbstractProvider
     public const SCOPE_APP_REMOTE_CONTROL = 'app-remote-control';
     public const SCOPE_STREAMING = 'streaming';
 
-    /**
-     * Spotify constructor.
-     */
     public function __construct(array $options = [], array $collaborators = [])
     {
         if (!isset($options['responseType']) || $options['responseType'] !== self::RESPONSE_TYPE) {

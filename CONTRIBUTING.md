@@ -29,8 +29,8 @@ We accept contributions via Pull Requests on [Github](https://github.com/ker0x/o
 The following tests must pass for a build to be considered successful. If contributing, please ensure these pass before submitting a pull request.
 
 ``` bash
-$ composer csfix
-$ composer test
+$ composer run-script php-cs-fixer
+$ composer run-script phpunit
 ```
 
 **Happy coding**!

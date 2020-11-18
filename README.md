@@ -1,7 +1,5 @@
 <div align="center">
-    <a href="https://travis-ci.org/ker0x/oauth2-spotify" title="Build">
-        <img src="https://img.shields.io/travis/ker0x/oauth2-spotify.svg?style=for-the-badge" alt="Build">
-    </a>
+    <img src="https://img.shields.io/github/workflow/status/ker0x/oauth2-spotify/ci?style=for-the-badge" alt="GitHub Workflow Status">
     <a href="https://scrutinizer-ci.com/g/ker0x/oauth2-spotify/" title="Coverage">
         <img src="https://img.shields.io/scrutinizer/coverage/g/ker0x/oauth2-spotify.svg?style=for-the-badge" alt="Coverage">
     </a>
