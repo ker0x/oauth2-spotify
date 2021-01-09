@@ -14,11 +14,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['7.1', '7.2', '7.3', '7.4']
-        coverage: [false]
+        php-versions: [ '7.1', '7.2', '7.3', '7.4' ]
+        allow-failure: [ false ]
+        composer-flags: [ '' ]
         include:
-          - php-versions: '7.1'
-            coverage: true
+          - php-versions: '8.0'
+            allow-failure: true
+            omposer-flags: '--ignore-platform-req php'
 
     steps:
       - uses: actions/checkout@v2
@@ -42,16 +44,13 @@ jobs:
 
       - name: composer-install
         if: steps.composer-cache.outputs.cache-hit != 'true'
-        run: composer install --prefer-dist --no-progress --no-suggest
+        run: composer install --prefer-dist --no-progress --no-suggest ${{ matrix.composer-flags }}
 
       - name: php-cs-fixer
+        continue-on-error: ${{ matrix.allow-failure }}
+        env:
+          PHP_CS_FIXER_IGNORE_ENV: ${{ matrix.allow-failure }}
         run: vendor/bin/php-cs-fixer fix --dry-run --diff --verbose --config=.php_cs.dist
 
       - name: phpunit
-        run: vendor/bin/phpunit --coverage-text --coverage-clover=build/coverage.xml
-
-      - name: coverage-upload
-        if: matrix.coverage
-        run: |
-          wget https://scrutinizer-ci.com/ocular.phar
-          php ocular.phar code-coverage:upload --format=php-clover build/coverage.xml
+        run: vendor/bin/phpunit
