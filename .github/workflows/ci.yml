@@ -14,10 +14,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: [ '7.1', '7.2', '7.3', '7.4' ]
+        php-versions: [ '7.3', '7.4' ]
         allow-failure: [ false ]
+        coverage: [ false ]
         composer-flags: [ '' ]
         include:
+          - php-versions: '7.2'
+            coverage: true
           - php-versions: '8.0'
             allow-failure: true
             omposer-flags: '--ignore-platform-req php'
@@ -53,4 +56,11 @@ jobs:
         run: vendor/bin/php-cs-fixer fix --dry-run --diff --verbose --config=.php_cs.dist
 
       - name: phpunit
-        run: vendor/bin/phpunit
+        run: composer run-script phpunit
+
+      - name: coverage
+        if: ${{ matrix.coverage }}
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: ./build
