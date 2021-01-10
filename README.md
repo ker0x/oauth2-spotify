@@ -1,13 +1,12 @@
 <div align="center">
-    <img src="https://img.shields.io/github/workflow/status/ker0x/oauth2-spotify/ci?style=for-the-badge" alt="GitHub Workflow Status">
-    <a href="https://scrutinizer-ci.com/g/ker0x/oauth2-spotify/" title="Coverage">
-        <img src="https://img.shields.io/scrutinizer/coverage/g/ker0x/oauth2-spotify.svg?style=for-the-badge" alt="Coverage">
+    <a href="https://github.com/ker0x/oauth2-spotify/actions" title="Build">
+        <img src="https://img.shields.io/github/workflow/status/ker0x/oauth2-spotify/ci?style=for-the-badge" alt="Build">
     </a>
-    <a href="https://scrutinizer-ci.com/g/ker0x/oauth2-spotify/" title="Code Quality">
-        <img src="https://img.shields.io/scrutinizer/g/ker0x/oauth2-spotify.svg?style=for-the-badge" alt="Code Quality">
+    <a href="https://scrutinizer-ci.com/g/ker0x/oauth2-spotify/" title="Coverage">
+        <img src="https://img.shields.io/codecov/c/gh/ker0x/oauth2-spotify?style=for-the-badge" alt="Coverage">
     </a>
     <a href="https://php.net" title="PHP Version">
-        <img src="https://img.shields.io/badge/php-%3E%3D%207.1-8892BF.svg?style=for-the-badge" alt="PHP Version">
+        <img src="https://img.shields.io/badge/php-%3E%3D%207.2-8892BF.svg?style=for-the-badge" alt="PHP Version">
     </a>
     <a href="https://packagist.org/packages/kerox/oauth2-spotify" title="Downloads">
         <img src="https://img.shields.io/packagist/dt/kerox/oauth2-spotify.svg?style=for-the-badge" alt="Downloads">
