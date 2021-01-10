@@ -14,12 +14,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: [ '7.3', '7.4' ]
+        php-versions: [ '7.4' ]
         allow-failure: [ false ]
         coverage: [ false ]
         composer-flags: [ '' ]
         include:
-          - php-versions: '7.2'
+          - php-versions: '7.3'
             coverage: true
           - php-versions: '8.0'
             allow-failure: true
