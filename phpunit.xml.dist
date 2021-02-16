@@ -1,20 +1,18 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<phpunit processIsolation="false"
-         stopOnFailure="false"
-         bootstrap="./vendor/autoload.php">
+<?xml version="1.0" encoding="utf-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" processIsolation="false" stopOnFailure="false" bootstrap="./vendor/autoload.php"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+    <coverage processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">./src</directory>
+        </include>
+        <report>
+            <clover outputFile="build/coverage.xml"/>
+        </report>
+    </coverage>
     <testsuites>
         <testsuite name="OAuth2 Spotify Test Suite">
             <directory>./tests</directory>
         </testsuite>
     </testsuites>
-
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./src</directory>
-        </whitelist>
-    </filter>
-
-    <logging>
-        <log type="coverage-clover" target="build/coverage.xml"/>
-    </logging>
+    <logging/>
 </phpunit>

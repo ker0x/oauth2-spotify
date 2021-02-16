@@ -16,37 +16,37 @@ class SpotifyResourceOwnerTest extends TestCase
 
     protected function setUp(): void
     {
-        $user = json_decode(file_get_contents(__DIR__ . '/../Mocks/user.json'), true);
+        $user = json_decode(file_get_contents(__DIR__ . '/../Mocks/user.json'), true, 512, \JSON_THROW_ON_ERROR);
 
         $this->resourceOwner = new SpotifyResourceOwner($user);
     }
 
     public function testGetter(): void
     {
-        $this->assertSame('1990-01-01', $this->resourceOwner->getBirthDate());
-        $this->assertSame('FR', $this->resourceOwner->getCountry());
-        $this->assertSame('John Doe', $this->resourceOwner->getDisplayName());
-        $this->assertSame('john.doe@example.com', $this->resourceOwner->getEmail());
-        $this->assertSame(['spotify' => 'https://open.spotify.com/user/1122334455'], $this->resourceOwner->getExternalUrls());
-        $this->assertSame(['href' => null, 'total' => 10], $this->resourceOwner->getFollowers());
-        $this->assertSame('https://api.spotify.com/v1/users/1122334455', $this->resourceOwner->getHref());
-        $this->assertSame('1122334455', $this->resourceOwner->getId());
-        $this->assertSame([
+        self::assertSame('1990-01-01', $this->resourceOwner->getBirthDate());
+        self::assertSame('FR', $this->resourceOwner->getCountry());
+        self::assertSame('John Doe', $this->resourceOwner->getDisplayName());
+        self::assertSame('john.doe@example.com', $this->resourceOwner->getEmail());
+        self::assertSame(['spotify' => 'https://open.spotify.com/user/1122334455'], $this->resourceOwner->getExternalUrls());
+        self::assertSame(['href' => null, 'total' => 10], $this->resourceOwner->getFollowers());
+        self::assertSame('https://api.spotify.com/v1/users/1122334455', $this->resourceOwner->getHref());
+        self::assertSame('1122334455', $this->resourceOwner->getId());
+        self::assertSame([
             [
                 'height' => null,
                 'url' => 'https://example.com/31964231_10156960367129386_5965686321191059456_n.jpg',
                 'width' => null,
             ],
         ], $this->resourceOwner->getImages());
-        $this->assertSame('premium', $this->resourceOwner->getProduct());
-        $this->assertSame('user', $this->resourceOwner->getType());
-        $this->assertSame('spotify:user:1122334455', $this->resourceOwner->getUri());
+        self::assertSame('premium', $this->resourceOwner->getProduct());
+        self::assertSame('user', $this->resourceOwner->getType());
+        self::assertSame('spotify:user:1122334455', $this->resourceOwner->getUri());
     }
 
     public function testToArray(): void
     {
-        $array = json_decode(file_get_contents(__DIR__ . '/../Mocks/user.json'), true);
+        $array = json_decode(file_get_contents(__DIR__ . '/../Mocks/user.json'), true, 512, \JSON_THROW_ON_ERROR);
 
-        $this->assertSame($array, $this->resourceOwner->toArray());
+        self::assertSame($array, $this->resourceOwner->toArray());
     }
 }
