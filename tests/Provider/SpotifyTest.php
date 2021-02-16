@@ -15,7 +15,7 @@ class FooSpotifyProvider extends Spotify
 {
     protected function fetchResourceOwnerDetails(AccessToken $token)
     {
-        return json_decode(file_get_contents(__DIR__ . '/../Mocks/user.json'), true);
+        return json_decode(file_get_contents(__DIR__ . '/../Mocks/user.json'), true, 512, \JSON_THROW_ON_ERROR);
     }
 }
 
@@ -43,12 +43,12 @@ class SpotifyTest extends TestCase
         $uri = parse_url($url);
         parse_str($uri['query'], $query);
 
-        $this->assertArrayHasKey('client_id', $query);
-        $this->assertArrayHasKey('redirect_uri', $query);
-        $this->assertArrayHasKey('state', $query);
-        $this->assertArrayHasKey('scope', $query);
-        $this->assertArrayHasKey('response_type', $query);
-        $this->assertNotNull($this->provider->getState());
+        self::assertArrayHasKey('client_id', $query);
+        self::assertArrayHasKey('redirect_uri', $query);
+        self::assertArrayHasKey('state', $query);
+        self::assertArrayHasKey('scope', $query);
+        self::assertArrayHasKey('response_type', $query);
+        self::assertNotNull($this->provider->getState());
     }
 
     public function testGetBaseAuthorizationUrl(): void
@@ -56,7 +56,7 @@ class SpotifyTest extends TestCase
         $url = $this->provider->getAuthorizationUrl();
         $uri = parse_url($url);
 
-        $this->assertSame('/authorize', $uri['path']);
+        self::assertSame('/authorize', $uri['path']);
     }
 
     public function testGetBaseAccessTokenUrl(): void
@@ -66,7 +66,7 @@ class SpotifyTest extends TestCase
         $url = $this->provider->getBaseAccessTokenUrl($params);
         $uri = parse_url($url);
 
-        $this->assertSame('/api/token', $uri['path']);
+        self::assertSame('/api/token', $uri['path']);
     }
 
     public function testGetResourceOwnerDetailsUrl(): void
@@ -76,7 +76,7 @@ class SpotifyTest extends TestCase
         $url = $this->provider->getResourceOwnerDetailsUrl($accessToken);
         $uri = parse_url($url);
 
-        $this->assertSame('/v1/me', $uri['path']);
+        self::assertSame('/v1/me', $uri['path']);
     }
 
     public function testGetAccessToken(): void
@@ -93,11 +93,11 @@ class SpotifyTest extends TestCase
         $this->provider->setHttpClient($client);
 
         $token = $this->provider->getAccessToken('authorization_code', ['code' => 'mock_authorization_code']);
-        $this->assertSame('mock_access_token', $token->getToken());
-        $this->assertLessThanOrEqual(time() + 3600, $token->getExpires());
-        $this->assertGreaterThanOrEqual(time(), $token->getExpires());
-        $this->assertNull($token->getRefreshToken());
-        $this->assertNull($token->getResourceOwnerId());
+        self::assertSame('mock_access_token', $token->getToken());
+        self::assertLessThanOrEqual(time() + 3600, $token->getExpires());
+        self::assertGreaterThanOrEqual(time(), $token->getExpires());
+        self::assertNull($token->getRefreshToken());
+        self::assertNull($token->getResourceOwnerId());
     }
 
     public function testGetResourceOwner(): void
@@ -107,24 +107,24 @@ class SpotifyTest extends TestCase
         $token = $this->createMock(AccessToken::class);
         $user = $provider->getResourceOwner($token);
 
-        $this->assertSame('1990-01-01', $user->getBirthDate($token));
-        $this->assertSame('FR', $user->getCountry($token));
-        $this->assertSame('John Doe', $user->getDisplayName($token));
-        $this->assertSame('john.doe@example.com', $user->getEmail($token));
-        $this->assertSame(['spotify' => 'https://open.spotify.com/user/1122334455'], $user->getExternalUrls($token));
-        $this->assertSame(['href' => null, 'total' => 10], $user->getFollowers($token));
-        $this->assertSame('https://api.spotify.com/v1/users/1122334455', $user->getHref($token));
-        $this->assertSame('1122334455', $user->getId($token));
-        $this->assertSame([
+        self::assertSame('1990-01-01', $user->getBirthDate());
+        self::assertSame('FR', $user->getCountry());
+        self::assertSame('John Doe', $user->getDisplayName());
+        self::assertSame('john.doe@example.com', $user->getEmail());
+        self::assertSame(['spotify' => 'https://open.spotify.com/user/1122334455'], $user->getExternalUrls());
+        self::assertSame(['href' => null, 'total' => 10], $user->getFollowers());
+        self::assertSame('https://api.spotify.com/v1/users/1122334455', $user->getHref());
+        self::assertSame('1122334455', $user->getId());
+        self::assertSame([
             [
                 'height' => null,
                 'url' => 'https://example.com/31964231_10156960367129386_5965686321191059456_n.jpg',
                 'width' => null,
             ],
-        ], $user->getImages($token));
-        $this->assertSame('premium', $user->getProduct($token));
-        $this->assertSame('user', $user->getType($token));
-        $this->assertSame('spotify:user:1122334455', $user->getUri($token));
+        ], $user->getImages());
+        self::assertSame('premium', $user->getProduct());
+        self::assertSame('user', $user->getType());
+        self::assertSame('spotify:user:1122334455', $user->getUri());
     }
 
     public function testCheckResponseFailureWithAuthenticationError(): void
