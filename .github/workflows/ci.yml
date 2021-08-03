@@ -23,7 +23,7 @@ jobs:
             coverage: true
           - php-version: '8.1'
             allow-failure: true
-            omposer-flags: '--ignore-platform-req php'
+            composer-flags: '--ignore-platform-req php'
 
     steps:
       - uses: actions/checkout@v2
