@@ -19,45 +19,9 @@ class Spotify extends AbstractProvider
     public const BASE_SPOTIFY_URL = 'https://accounts.spotify.com/';
     public const RESPONSE_TYPE = 'code';
 
-    // Available scopes.
-
-    // Images
-    public const SCOPE_UGC_IMAGE_UPLOAD = 'ugc-image-upload';
-
-    // Spotify Connect
-    public const SCOPE_USER_MODIFY_PLAYBACK_STATE = 'user-modify-playback-state';
-    public const SCOPE_USER_READ_PLAYBACK_STATE = 'user-read-playback-state';
-    public const SCOPE_USER_READ_CURRENTLY_PLAYING = 'user-read-currently-playing';
-
-    // Listening History
-    public const SCOPE_USER_TOP_READ = 'user-top-read';
-    public const SCOPE_USER_READ_RECENTLY_PLAYED = 'user-read-recently-played';
-
-    // Library
-    public const SCOPE_USER_LIBRARY_MODIFY = 'user-library-modify';
-    public const SCOPE_USER_LIBRARY_READ = 'user-library-read';
-
-    // Follow
-    public const SCOPE_USER_FOLLOW_MODIFY = 'user-follow-modify';
-    public const SCOPE_USER_FOLLOW_READ = 'user-follow-read';
-
-    // Playlist
-    public const SCOPE_PLAYLIST_READ_PRIVATE = 'playlist-read-private';
-    public const SCOPE_PLAYLIST_MODIFY_PUBLIC = 'playlist-modify-public';
-    public const SCOPE_PLAYLIST_MODIFY_PRIVATE = 'playlist-modify-private';
-    public const SCOPE_PLAYLIST_READ_COLLABORATIVE = 'playlist-read-collaborative';
-
-    // User
-    public const SCOPE_USER_READ_PRIVATE = 'user-read-private';
-    public const SCOPE_USER_READ_EMAIL = 'user-read-email';
-
-    // Playback
-    public const SCOPE_APP_REMOTE_CONTROL = 'app-remote-control';
-    public const SCOPE_STREAMING = 'streaming';
-
     public function __construct(array $options = [], array $collaborators = [])
     {
-        if (!isset($options['responseType']) || $options['responseType'] !== self::RESPONSE_TYPE) {
+        if (!isset($options['responseType']) || self::RESPONSE_TYPE !== $options['responseType']) {
             $options['responseType'] = self::RESPONSE_TYPE;
         }
 
@@ -69,7 +33,7 @@ class Spotify extends AbstractProvider
      */
     public function getBaseAuthorizationUrl(): string
     {
-        return self::BASE_SPOTIFY_URL . 'authorize';
+        return self::BASE_SPOTIFY_URL.'authorize';
     }
 
     /**
@@ -77,7 +41,7 @@ class Spotify extends AbstractProvider
      */
     public function getBaseAccessTokenUrl(array $params): string
     {
-        return self::BASE_SPOTIFY_URL . 'api/token';
+        return self::BASE_SPOTIFY_URL.'api/token';
     }
 
     /**

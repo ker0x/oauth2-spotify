@@ -15,16 +15,13 @@ class FooSpotifyProvider extends Spotify
 {
     protected function fetchResourceOwnerDetails(AccessToken $token)
     {
-        return json_decode(file_get_contents(__DIR__ . '/../Mocks/user.json'), true, 512, \JSON_THROW_ON_ERROR);
+        return json_decode(file_get_contents(__DIR__.'/../Mocks/user.json'), true, 512, \JSON_THROW_ON_ERROR);
     }
 }
 
 class SpotifyTest extends TestCase
 {
-    /**
-     * @var \Kerox\OAuth2\Client\Provider\Spotify
-     */
-    protected $provider;
+    protected Spotify $provider;
 
     protected function setUp(): void
     {
@@ -161,12 +158,7 @@ class SpotifyTest extends TestCase
         $this->callMethod('checkResponse', [$response, $data]);
     }
 
-    /**
-     * @param $name
-     *
-     * @return mixed|null
-     */
-    protected function callMethod($name, array $args = [])
+    protected function callMethod(string $name, array $args = []): mixed
     {
         try {
             $reflection = new \ReflectionMethod(\get_class($this->provider), $name);

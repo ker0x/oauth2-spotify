@@ -9,14 +9,11 @@ use PHPUnit\Framework\TestCase;
 
 class SpotifyResourceOwnerTest extends TestCase
 {
-    /**
-     * @var \Kerox\OAuth2\Client\Provider\SpotifyResourceOwner
-     */
-    protected $resourceOwner;
+    protected SpotifyResourceOwner $resourceOwner;
 
     protected function setUp(): void
     {
-        $user = json_decode(file_get_contents(__DIR__ . '/../Mocks/user.json'), true, 512, \JSON_THROW_ON_ERROR);
+        $user = json_decode(file_get_contents(__DIR__.'/../Mocks/user.json'), true, 512, \JSON_THROW_ON_ERROR);
 
         $this->resourceOwner = new SpotifyResourceOwner($user);
     }
@@ -45,7 +42,7 @@ class SpotifyResourceOwnerTest extends TestCase
 
     public function testToArray(): void
     {
-        $array = json_decode(file_get_contents(__DIR__ . '/../Mocks/user.json'), true, 512, \JSON_THROW_ON_ERROR);
+        $array = json_decode(file_get_contents(__DIR__.'/../Mocks/user.json'), true, 512, \JSON_THROW_ON_ERROR);
 
         self::assertSame($array, $this->resourceOwner->toArray());
     }
