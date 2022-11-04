@@ -21,12 +21,12 @@
     }
   ],
   "require": {
-    "php": ">=7.3",
+    "php": ">=8.1",
     "league/oauth2-client": "^2.6"
   },
   "require-dev": {
-    "friendsofphp/php-cs-fixer": "^2.17",
-    "phpunit/phpunit": "^9.0"
+    "friendsofphp/php-cs-fixer": "^3.0",
+    "phpunit/phpunit": "^9.5"
   },
   "config": {
     "optimize-autoloader": true,
@@ -43,7 +43,7 @@
     }
   },
   "scripts": {
-    "php-cs-fixer": "vendor/bin/php-cs-fixer fix --diff --verbose --config=.php_cs",
+    "php-cs-fixer": "vendor/bin/php-cs-fixer fix --diff --verbose",
     "phpunit": "vendor/bin/phpunit --coverage-text --coverage-clover=build/coverage.xml"
   }
 }

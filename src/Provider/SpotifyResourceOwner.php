@@ -8,10 +8,7 @@ use League\OAuth2\Client\Provider\ResourceOwnerInterface;
 
 class SpotifyResourceOwner implements ResourceOwnerInterface
 {
-    /**
-     * @var array
-     */
-    protected $data;
+    protected array $data;
 
     public function __construct(array $response)
     {
@@ -79,7 +76,7 @@ class SpotifyResourceOwner implements ResourceOwnerInterface
     }
 
     /**
-     * Return all of the owner details available as an array.
+     * Return all the owner details available as an array.
      */
     public function toArray(): array
     {
