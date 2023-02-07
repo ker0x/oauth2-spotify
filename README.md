@@ -1,6 +1,6 @@
 <div align="center">
-    <a href="https://github.com/ker0x/oauth2-spotify/actions" title="Build">
-        <img src="https://img.shields.io/github/workflow/status/ker0x/oauth2-spotify/ci?style=for-the-badge" alt="Build">
+    <a href="https://github.com/ker0x/oauth2-spotify/actions/workflows/ci.yml" title="Build">
+        <img src="https://img.shields.io/github/actions/workflow/status/ker0x/oauth2-spotify/ci.yml?branch=main&style=for-the-badge" alt="Build">
     </a>
     <a href="https://scrutinizer-ci.com/g/ker0x/oauth2-spotify/" title="Coverage">
         <img src="https://img.shields.io/codecov/c/gh/ker0x/oauth2-spotify?style=for-the-badge" alt="Coverage">
@@ -97,7 +97,7 @@ try {
 
 echo '<pre>';
 // Use this to interact with an API on the users behalf
-var_dump($token->getToken());
+var_dump($token->getRefreshToken());
 # string(217) "CAADAppfn3msBAI7tZBLWg...
 
 // The time (in epoch time) when an access token will expire
