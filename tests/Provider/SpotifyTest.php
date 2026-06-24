@@ -10,6 +10,7 @@ use Kerox\OAuth2\Client\Provider\Spotify;
 use League\OAuth2\Client\Token\AccessToken;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamInterface;
 
 class FooSpotifyProvider extends Spotify
 {
@@ -78,16 +79,18 @@ class SpotifyTest extends TestCase
 
     public function testGetAccessToken(): void
     {
-        $response = $this->createMock(ResponseInterface::class);
+        $stream = $this->createMock(StreamInterface::class);
+        $stream->method('__toString')->willReturn('{"access_token":"mock_access_token","expires_in":3600}');
 
-        $response->method('getBody')->willReturn('{"access_token": "mock_access_token", "expires_in": 3600}');
+        $response = $this->createMock(ResponseInterface::class);
+        $response->method('getBody')->willReturn($stream);
         $response->method('getHeader')->willReturn(['content-type' => 'json']);
         $response->method('getStatusCode')->willReturn(200);
 
-        $client = $this->createMock(ClientInterface::class);
-        $client->method('send')->willReturn($response);
+        $httpClient = $this->createMock(ClientInterface::class);
+        $httpClient->method('send')->willReturn($response);
 
-        $this->provider->setHttpClient($client);
+        $this->provider->setHttpClient($httpClient);
 
         $token = $this->provider->getAccessToken('authorization_code', ['code' => 'mock_authorization_code']);
         self::assertSame('mock_access_token', $token->getToken());
@@ -162,7 +165,6 @@ class SpotifyTest extends TestCase
     {
         try {
             $reflection = new \ReflectionMethod(\get_class($this->provider), $name);
-            $reflection->setAccessible(true);
 
             return $reflection->invokeArgs($this->provider, $args);
         } catch (\ReflectionException $e) {
