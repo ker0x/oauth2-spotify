@@ -43,7 +43,8 @@
     }
   },
   "scripts": {
-    "php-cs-fixer": "vendor/bin/php-cs-fixer fix --diff --verbose",
-    "phpunit": "vendor/bin/phpunit --coverage-text --coverage-clover=build/coverage.xml"
+    "cs": "vendor/bin/php-cs-fixer fix -v --dry-run",
+    "cs:fix": "vendor/bin/php-cs-fixer fix -v",
+    "test": "vendor/bin/phpunit"
   }
 }
